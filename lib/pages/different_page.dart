@@ -55,8 +55,8 @@ class _DifferentPageState extends State<DifferentPage> {
                 ),
                 TextField(
                   // focusNode: _secondTextFieldFocusNode,
-                  minLines: 1,
-                  maxLines: null,
+                  // minLines: 1,
+                  // maxLines: null,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     hintText: "Take basket",
