@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:to_do/global/constants.dart';
 
-class DifferentPage extends StatelessWidget {
+class DifferentPage extends StatefulWidget {
   const DifferentPage({super.key});
 
+  @override
+  State<DifferentPage> createState() => _DifferentPageState();
+}
+
+class _DifferentPageState extends State<DifferentPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,6 +28,11 @@ class DifferentPage extends StatelessWidget {
               spacing: 10,
               children: [
                 TextField(
+                  // onSubmitted: (value) {
+                  //   print(value);
+                  // },
+                  // focusNode: _firstTextFieldFocusNode,
+                  textInputAction: TextInputAction.next,
                   autofocus: true,
                   decoration: InputDecoration(
                     hintText: "The Laundry",
@@ -44,6 +54,7 @@ class DifferentPage extends StatelessWidget {
                   ),
                 ),
                 TextField(
+                  // focusNode: _secondTextFieldFocusNode,
                   minLines: 1,
                   maxLines: null,
                   decoration: InputDecoration(
