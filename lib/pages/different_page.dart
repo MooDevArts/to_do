@@ -57,6 +57,9 @@ class _DifferentPageState extends State<DifferentPage> {
                   // focusNode: _secondTextFieldFocusNode,
                   // minLines: 1,
                   // maxLines: null,
+                  onSubmitted: (value) {
+                    Navigator.pop(context, true);
+                  },
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     hintText: "Take basket",

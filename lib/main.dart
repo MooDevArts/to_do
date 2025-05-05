@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:to_do/global/constants.dart';
 import 'package:to_do/pages/different_page.dart';
 import 'widgets/task.dart';
 
@@ -13,6 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'To Do',
       theme: ThemeData(
         // This is the theme of your application.
@@ -57,19 +59,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -115,13 +104,25 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
+        onPressed: () async {
+          bool result = await Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => const DifferentPage(),
             ), // Replace DifferentPage with your actual page widget
           );
+          if (result == true) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                backgroundColor: successColor,
+                content: Text(
+                  "Task Added",
+                  style: TextStyle(color: Colors.black),
+                ),
+                duration: Duration(seconds: 2),
+              ),
+            );
+          }
         },
         tooltip: "show add task page",
         child: const Icon(Icons.add),
