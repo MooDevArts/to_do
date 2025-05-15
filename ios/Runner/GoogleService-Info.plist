@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyDh7qBVe0TABfZe65juC-snlYvRUdKAt_A</string>
+	<key>GCM_SENDER_ID</key>
+	<string>186860742849</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.spiderwebarts.toDo</string>
+	<key>PROJECT_ID</key>
+	<string>to-do-a7722</string>
+	<key>STORAGE_BUCKET</key>
+	<string>to-do-a7722.firebasestorage.app</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:186860742849:ios:3bc371e0d1983c1c530c40</string>
+	<key>DATABASE_URL</key>
+	<string>https://to-do-a7722-default-rtdb.firebaseio.com</string>
+</dict>
+</plist>

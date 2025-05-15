@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "186860742849",
+    "firebase_url": "https://to-do-a7722-default-rtdb.firebaseio.com",
+    "project_id": "to-do-a7722",
+    "storage_bucket": "to-do-a7722.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:186860742849:android:068d78dbc8c2997a530c40",
+        "android_client_info": {
+          "package_name": "com.example.to_do"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBIIipgdDhZ9KFeJW4ZgzT4uou_gtwxj70"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:to_do/global/constants.dart';
 import 'package:to_do/pages/different_page.dart';
 import 'widgets/task.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
 
@@ -97,9 +101,9 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           spacing: 10,
           children: <Widget>[
-            Task(title: "Task 1"),
-            Task(title: "Task 2"),
-            Task(title: "My Name is Hima"),
+            Task(title: "Yo"),
+            Task(title: "Sup"),
+            Task(title: "Hima"),
           ],
         ),
       ),
