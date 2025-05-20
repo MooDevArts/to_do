@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:to_do/global/constants.dart';
+import 'package:to_do/providers/task_provider.dart';
 
 class DifferentPage extends StatefulWidget {
   const DifferentPage({super.key});
@@ -9,6 +11,10 @@ class DifferentPage extends StatefulWidget {
 }
 
 class _DifferentPageState extends State<DifferentPage> {
+
+  String taskName = "";
+  String taskDescription = "";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,8 +35,12 @@ class _DifferentPageState extends State<DifferentPage> {
               children: [
                 TextField(
                   // onSubmitted: (value) {
-                  //   print(value);
+                  //   taskName = value;
+                  //   // print(taskName);
                   // },
+                  onChanged: (value) {
+                    taskName = value;
+                  },
                   // focusNode: _firstTextFieldFocusNode,
                   textInputAction: TextInputAction.next,
                   autofocus: true,
@@ -58,6 +68,9 @@ class _DifferentPageState extends State<DifferentPage> {
                   // minLines: 1,
                   // maxLines: null,
                   onSubmitted: (value) {
+                    taskDescription = value;
+                    // print(taskDescription);
+                    context.read<TaskProvider>().addTask(taskName: taskName, taskDescription: taskDescription);
                     Navigator.pop(context, true);
                   },
                   decoration: InputDecoration(

@@ -1,0 +1,53 @@
+import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/material.dart';
+
+class TaskProvider extends ChangeNotifier {
+  Map<String?, dynamic> tasks = {};
+
+  final Query reference = FirebaseDatabase.instance
+      .ref("tasks")
+      .orderByChild('createdAt');
+  final DatabaseReference ref = FirebaseDatabase.instance.ref("tasks");
+
+  TaskProvider() {
+    startListening();
+  }
+
+  void startListening() {
+    reference.onValue.listen((DatabaseEvent event) {
+      // cast it onto tasks
+      final snapshot = event.snapshot;
+
+      if (snapshot.exists) {
+        Map<String?, dynamic> orderedTasks = {};
+        for (final childSnapshot in snapshot.children) {
+          if (childSnapshot.key != "_placeholder") {
+            orderedTasks[childSnapshot.key] = childSnapshot.value;
+          }
+        }
+        tasks = orderedTasks;
+        print(tasks);
+        notifyListeners();
+      }
+    });
+  }
+
+  void addTask({
+    required String? taskName,
+    required String? taskDescription,
+  }) async {
+    Map<String, dynamic> data = {
+      'name': taskName,
+      'description': taskDescription,
+      'createdAt': ServerValue.timestamp,
+    };
+    await ref.push().set(data);
+  }
+
+  void deleteTask({required String? taskId}) async {
+    if (taskId != null) {
+      await ref.child(taskId).remove();
+      notifyListeners();
+    }
+  }
+}
