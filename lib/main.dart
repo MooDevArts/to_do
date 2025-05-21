@@ -82,6 +82,14 @@ class _MyHomePageState extends State<MyHomePage> {
     // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.logout),
+          onPressed: () async {
+            final FirebaseAuth auth = FirebaseAuth.instance;
+            await auth.signOut();
+            // The StreamBuilder in main.dart will automatically navigate to AuthScreen
+          },
+        ),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
         actions: [

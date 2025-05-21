@@ -63,7 +63,12 @@ class TaskProvider extends ChangeNotifier {
 
   void deleteTask({required String? taskId}) async {
     if (taskId != null) {
-      await ref.child(taskId).remove();
+      DatabaseReference userTaskRef = rootRef
+          .child('users')
+          .child(currentUserId!)
+          .child('tasks');
+      await userTaskRef.child(taskId).remove();
+      await _audioPlayer.play(AssetSource('sounds/paper-bin-toss-1-83125.mp3'));
       notifyListeners();
     }
   }

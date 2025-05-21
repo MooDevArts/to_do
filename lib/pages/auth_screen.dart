@@ -26,12 +26,31 @@ class _AuthScreenState extends State<AuthScreen> {
       // You might want to navigate to the home screen here,
       // but the StreamBuilder in main.dart will handle it automatically
     } on FirebaseAuthException catch (e) {
-      setState(() {
+      setState(() async {
         if (e.code == 'weak-password') {
           errorMessage = 'The password provided is too weak.';
           // Display error to the user
         } else if (e.code == 'email-already-in-use') {
-          errorMessage = 'The account already exists for that email.';
+          try {
+            final FirebaseAuth auth = FirebaseAuth.instance;
+            await auth.signInWithEmailAndPassword(
+              email: _emailController.text,
+              password: _passwordController.text,
+            );
+          } on FirebaseAuthException catch (e) {
+            setState(() {
+              if (e.code == 'user-not-found') {
+                errorMessage = 'No user found for that email.';
+              } else if (e.code == 'wrong-password') {
+                errorMessage = 'Wrong password provided for that user.';
+              } else {
+                errorMessage = 'Error during login: ${e.message}';
+              }
+            });
+          } catch (e) {
+            print(e);
+          }
+
           // Display error to the user
         } else {
           errorMessage = 'Error during sign up: ${e.message}';
@@ -70,7 +89,10 @@ class _AuthScreenState extends State<AuthScreen> {
               const SizedBox(height: 20),
               Text(errorMessage, style: TextStyle(color: Colors.red)),
               const SizedBox(height: 20),
-              ElevatedButton(onPressed: _signUp, child: const Text('Sign Up')),
+              ElevatedButton(
+                onPressed: _signUp,
+                child: const Text('Sign Up / Login'),
+              ),
               // You can add a button here to navigate to the login screen
               // or to switch between sign up and login forms
             ],
