@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ class TaskProvider extends ChangeNotifier {
   final DatabaseReference ref = FirebaseDatabase.instance.ref("tasks");
   final DatabaseReference rootRef = FirebaseDatabase.instance.ref();
   final String? currentUserId = FirebaseAuth.instance.currentUser?.uid;
+  final AudioPlayer _audioPlayer = AudioPlayer();
 
   TaskProvider() {
     startListening();
@@ -53,6 +55,7 @@ class TaskProvider extends ChangeNotifier {
         'createdAt': ServerValue.timestamp,
       };
       await userTaskRef.push().set(data);
+      await _audioPlayer.play(AssetSource('sounds/money-pickup-2-89563.mp3'));
     } else {
       print('User not logged in, cannot add task');
     }
