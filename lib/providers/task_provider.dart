@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
@@ -8,13 +9,19 @@ class TaskProvider extends ChangeNotifier {
       .ref("tasks")
       .orderByChild('createdAt');
   final DatabaseReference ref = FirebaseDatabase.instance.ref("tasks");
+  final DatabaseReference rootRef = FirebaseDatabase.instance.ref();
+  final String? currentUserId = FirebaseAuth.instance.currentUser?.uid;
 
   TaskProvider() {
     startListening();
   }
 
   void startListening() {
-    reference.onValue.listen((DatabaseEvent event) {
+    DatabaseReference userTaskRef = rootRef
+        .child('users')
+        .child(currentUserId!)
+        .child('tasks');
+    userTaskRef.onValue.listen((DatabaseEvent event) {
       // cast it onto tasks
       final snapshot = event.snapshot;
 
@@ -26,7 +33,6 @@ class TaskProvider extends ChangeNotifier {
           }
         }
         tasks = orderedTasks;
-        print(tasks);
         notifyListeners();
       }
     });
@@ -36,12 +42,20 @@ class TaskProvider extends ChangeNotifier {
     required String? taskName,
     required String? taskDescription,
   }) async {
-    Map<String, dynamic> data = {
-      'name': taskName,
-      'description': taskDescription,
-      'createdAt': ServerValue.timestamp,
-    };
-    await ref.push().set(data);
+    if (currentUserId != null) {
+      DatabaseReference userTaskRef = rootRef
+          .child('users')
+          .child(currentUserId!)
+          .child('tasks');
+      Map<String, dynamic> data = {
+        'name': taskName,
+        'description': taskDescription,
+        'createdAt': ServerValue.timestamp,
+      };
+      await userTaskRef.push().set(data);
+    } else {
+      print('User not logged in, cannot add task');
+    }
   }
 
   void deleteTask({required String? taskId}) async {

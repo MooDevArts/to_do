@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:to_do/global/constants.dart';
+import 'package:to_do/pages/auth_screen.dart';
 import 'package:to_do/pages/different_page.dart';
 import 'package:to_do/pages/task_detail.dart';
 import 'package:to_do/providers/task_provider.dart';
 import 'widgets/task.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,7 +30,19 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           fontFamily: "Josefin_Sans",
         ),
-        home: const MyHomePage(title: 'Tasks'),
+        home: StreamBuilder<User?>(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const CircularProgressIndicator();
+            }
+            if (snapshot.hasData) {
+              return const MyHomePage(title: 'tasks');
+            } else {
+              return const AuthScreen();
+            }
+          },
+        ),
       ),
     );
   }
