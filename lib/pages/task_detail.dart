@@ -31,6 +31,7 @@ class _TaskDetailState extends State<TaskDetail> {
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Task(title: widget.name == "" ? "No Name" : widget.name),
               SizedBox(height: 8),

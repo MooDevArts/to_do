@@ -59,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final tasksMap = taskProvider.tasks;
     // print(tasksMap);
     final taskList = tasksMap.values.toList();
-    print(taskList);
+    // print(taskList);
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
