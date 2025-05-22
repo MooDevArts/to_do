@@ -1,3 +1,4 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -23,41 +24,49 @@ class _AuthScreenState extends State<AuthScreen> {
           );
       // If sign up is successful, the user will be automatically logged in
       print('User signed up: ${userCredential.user?.uid}');
+      if (userCredential.user != null) {
+        print('Attempting to create user data in Realtime Database');
+        DatabaseReference reference = FirebaseDatabase.instance.ref('users');
+        reference.child(userCredential.user!.uid).child('tasks').set({});
+        print('Successfully created user data in Realtime Database');
+      }
       // You might want to navigate to the home screen here,
       // but the StreamBuilder in main.dart will handle it automatically
     } on FirebaseAuthException catch (e) {
-      setState(() async {
-        if (e.code == 'weak-password') {
+      if (e.code == 'weak-password') {
+        setState(() {
           errorMessage = 'The password provided is too weak.';
-          // Display error to the user
-        } else if (e.code == 'email-already-in-use') {
-          try {
-            final FirebaseAuth auth = FirebaseAuth.instance;
-            await auth.signInWithEmailAndPassword(
-              email: _emailController.text,
-              password: _passwordController.text,
-            );
-          } on FirebaseAuthException catch (e) {
-            setState(() {
-              if (e.code == 'user-not-found') {
-                errorMessage = 'No user found for that email.';
-              } else if (e.code == 'wrong-password') {
-                errorMessage = 'Wrong password provided for that user.';
-              } else {
-                errorMessage = 'Error during login: ${e.message}';
-              }
-            });
-          } catch (e) {
-            print(e);
-          }
+        });
+        // Display error to the user
+      } else if (e.code == 'email-already-in-use') {
+        try {
+          final FirebaseAuth auth = FirebaseAuth.instance;
+          await auth.signInWithEmailAndPassword(
+            email: _emailController.text,
+            password: _passwordController.text,
+          );
+        } on FirebaseAuthException catch (e) {
+          setState(() {
+            if (e.code == 'user-not-found') {
+              errorMessage = 'No user found for that email.';
+            } else if (e.code == 'wrong-password') {
+              errorMessage = 'Wrong password provided for that user.';
+            } else {
+              errorMessage = 'Error during login: ${e.message}';
+            }
+          });
+        } catch (e) {
+          print(e);
+        }
 
-          // Display error to the user
-        } else {
+        // Display error to the user
+      } else {
+        setState(() {
           errorMessage = 'Error during sign up: ${e.message}';
           print(e);
           // Display a general error to the user
-        }
-      });
+        });
+      }
     } catch (e) {
       print(e);
     }

@@ -1,3 +1,4 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:to_do/global/constants.dart';
@@ -37,6 +38,27 @@ class MyApp extends StatelessWidget {
               return const CircularProgressIndicator();
             }
             if (snapshot.hasData) {
+              final User? user = snapshot.data;
+              if (user != null) {
+                // Create user node in Realtime Database if it doesn't exist
+                FirebaseDatabase.instance
+                    .ref('users')
+                    .child(user.uid)
+                    .child('tasks')
+                    .get()
+                    .then((snapshot) {
+                      if (!snapshot.exists) {
+                        FirebaseDatabase.instance
+                            .ref('users')
+                            .child(user.uid)
+                            .child('tasks')
+                            .set({});
+                        print(
+                          'User data created in Realtime Database from main.dart',
+                        );
+                      }
+                    });
+              }
               return const MyHomePage(title: 'tasks');
             } else {
               return const AuthScreen();
