@@ -26,8 +26,11 @@ class _AuthScreenState extends State<AuthScreen> {
       print('User signed up: ${userCredential.user?.uid}');
       if (userCredential.user != null) {
         print('Attempting to create user data in Realtime Database');
-        DatabaseReference reference = FirebaseDatabase.instance.ref('users');
-        reference.child(userCredential.user!.uid).child('tasks').set({});
+        FirebaseDatabase.instance
+            .ref('users')
+            .child(userCredential.user!.uid)
+            .child('tasks')
+            .set({});
         print('Successfully created user data in Realtime Database');
       }
       // You might want to navigate to the home screen here,
