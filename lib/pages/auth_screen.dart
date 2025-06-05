@@ -31,7 +31,7 @@ class _AuthScreenState extends State<AuthScreen> {
             .child(userCredential.user!.uid)
             .child('tasks')
             .set({});
-        print('Successfully created user data in Realtime Database');
+        // print('Successfully created user data in Realtime Database');
       }
       // You might want to navigate to the home screen here,
       // but the StreamBuilder in main.dart will handle it automatically
